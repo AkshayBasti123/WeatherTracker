@@ -1,96 +1,116 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("JavaScript loaded successfully!");
+    console.log("JavaScript file loaded successfully! ✅");
 
-    const locationInput = document.getElementById("location-input");
-    const currentWeatherBtn = document.getElementById("current-weather-btn");
-    const forecastBtn = document.getElementById("forecast-btn");
-    const forecastContainer = document.getElementById("forecast-container");
-    const forecastDiv = document.getElementById("forecast");
+    const weatherBtn = document.getElementById("weatherBtn");
+    const forecastBtn = document.getElementById("forecastBtn");
+    const input = document.getElementById("location");
 
-    const infoButton = document.getElementById("info-button");
-    const infoBox = document.getElementById("info-box");
-
-    const API_KEY = "b1eeafd271ab3faa4a3c948fe3387fcf";
-
-    currentWeatherBtn.addEventListener("click", async function () {
-        const location = locationInput.value.trim();
-        if (!location) {
-            alert("Please enter a location.");
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`
-            );
-            const data = await response.json();
-
-            if (data.cod !== 200) {
-                alert("Location not found. Please try again.");
-                return;
-            }
-
-            alert(`Current Weather in ${data.name}: ${data.weather[0].description}, ${data.main.temp}°C`);
-        } catch (error) {
-            console.error("Error fetching weather data:", error);
-            alert("Something went wrong. Try again later.");
-        }
-    });
-
-    // Fetch 5-day forecast
-    forecastBtn.addEventListener("click", async function () {
-        const location = locationInput.value.trim();
-        if (!location) {
-            alert("Please enter a location.");
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`
-            );
-            const data = await response.json();
-
-            if (data.cod !== "200") {
-                alert("Location not found. Please try again.");
-                return;
-            }
-
-            forecastDiv.innerHTML = ""; // Clear previous forecast
-            forecastContainer.style.display = "block";
-
-            const dailyForecasts = {};
-            data.list.forEach((forecast) => {
-                const date = forecast.dt_txt.split(" ")[0];
-                if (!dailyForecasts[date]) {
-                    dailyForecasts[date] = forecast;
-                }
-            });
-
-            Object.keys(dailyForecasts).slice(0, 5).forEach((date) => {
-                const forecast = dailyForecasts[date];
-                const forecastElement = document.createElement("div");
-                forecastElement.classList.add("forecast-item");
-                forecastElement.innerHTML = `
-                    <h3>${new Date(date).toLocaleDateString("en-US", { weekday: "long" })}</h3>
-                    <p>${forecast.weather[0].description}</p>
-                    <p>🌡️ ${forecast.main.temp}°C</p>
-                `;
-                forecastDiv.appendChild(forecastElement);
-            });
-        } catch (error) {
-            console.error("Error fetching forecast data:", error);
-            alert("Something went wrong. Try again later.");
-        }
-    });
-
-    // Toggle info box visibility
-    if (infoButton && infoBox) {
-        infoButton.addEventListener("click", function () {
-            infoBox.classList.toggle("hidden");
-        });
-    } else {
-        console.error("One or more elements not found in DOM.");
+    if (!weatherBtn || !forecastBtn || !input) {
+        console.error("Error: One or more elements not found in DOM.");
+        return;
     }
+
+    weatherBtn.addEventListener("click", function () {
+        console.log("Weather Button Clicked!");
+        const location = input.value.trim();
+        if (location) {
+            fetchWeather(location);
+            document.getElementById("forecast").innerHTML = ""; // Clear forecast section
+        } else {
+            displayError("Please enter a valid location.", "weather");
+        }
+    });
+
+    forecastBtn.addEventListener("click", function () {
+        console.log("Forecast Button Clicked!");
+        const location = input.value.trim();
+        if (location) {
+            fetchForecast(location);
+            document.getElementById("weather").innerHTML = ""; // Clear weather section
+        } else {
+            displayError("Please enter a valid location.", "forecast");
+        }
+    });
 });
 
+function fetchWeather(location) {
+    const apiKey = "b1eeafd271ab3faa4a3c948fe3387fcf";
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+
+    console.log(`Fetching Current Weather from: ${url}`);
+
+    fetch(url)
+        .then(response => {
+            console.log("API Response Status:", response.status);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Weather Data:", data);
+            displayWeather(data);
+        })
+        .catch(error => {
+            console.error("Fetch Error:", error);
+            displayError(error.message, "weather");
+        });
+}
+
+function fetchForecast(location) {
+    const apiKey = "b1eeafd271ab3faa4a3c948fe3387fcf";
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&units=metric`;
+
+    console.log(`Fetching 5-Day Forecast from: ${url}`);
+
+    fetch(url)
+        .then(response => {
+            console.log("API Response Status:", response.status);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Forecast Data:", data);
+            displayForecast(data);
+        })
+        .catch(error => {
+            console.error("Fetch Error:", error);
+            displayError(error.message, "forecast");
+        });
+}
+
+function displayWeather(data) {
+    document.getElementById("weather").innerHTML = `
+        <h3>${data.name}, ${data.sys.country}</h3>
+        <p>${data.weather[0].description}</p>
+        <p>🌡 Temperature: ${data.main.temp}°C</p>
+        <p>💨 Wind Speed: ${data.wind.speed} m/s</p>
+    `;
+}
+
+function displayForecast(data) {
+    let forecastHTML = "<h3>5-Day Forecast</h3><div class='forecast-container'>";
+
+    const dailyForecasts = data.list.filter((reading, index) => index % 8 === 0);
+
+    dailyForecasts.forEach(day => {
+        const date = new Date(day.dt * 1000).toLocaleDateString("en-US", { weekday: "long" });
+        forecastHTML += `
+            <div class="forecast">
+                <p>${date}</p>
+                <img class="weather-icon" src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="Weather icon">
+                <p>${day.weather[0].description}</p>
+                <p>🌡 ${day.main.temp}°C</p>
+            </div>
+        `;
+    });
+
+    forecastHTML += "</div>";
+    document.getElementById("forecast").innerHTML = forecastHTML;
+}
+
+function displayError(message, elementId) {
+    document.getElementById(elementId).innerHTML = `<p class="error">${message}</p>`;
+}
