@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const location = input.value.trim();
         if (location) {
             fetchWeather(location);
+            document.getElementById("forecast").innerHTML = ""; // Clear forecast section
         } else {
             displayError("Please enter a valid location.", "weather");
         }
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const location = input.value.trim();
         if (location) {
             fetchForecast(location);
+            document.getElementById("weather").innerHTML = ""; // Clear weather section
         } else {
             displayError("Please enter a valid location.", "forecast");
         }
@@ -76,7 +78,7 @@ function displayWeather(data) {
 
 function displayForecast(data) {
     let forecastHTML = "<h3>5-Day Forecast</h3><div class='forecast-container'>";
-    
+
     const dailyForecasts = data.list.filter((reading, index) => index % 8 === 0);
 
     dailyForecasts.forEach(day => {
