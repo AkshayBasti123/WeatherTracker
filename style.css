@@ -1,102 +1,67 @@
-/* === Global Styles === */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1a1a1a, #333333);
-    color: white;
+    background-color: #121212;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    text-align: center;
+}
+
+.app-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    margin-top: 50px;
 }
 
-/* === Container (Glassmorphism Effect) === */
-.container {
-    max-width: 400px;
-    background: rgba(255, 255, 255, 0.1);
+.weather-app {
+    background: #242424;
     padding: 20px;
     border-radius: 15px;
+    width: 350px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* === Title === */
 h2 {
-    font-size: 24px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #00d4ff;
+    color: cyan;
 }
 
-/* === Input Field === */
 input {
-    width: 85%;
+    width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: none;
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.2);
+    background: #333;
     color: white;
-    font-size: 16px;
-    text-align: center;
 }
 
-/* === Button === */
 button {
-    background: linear-gradient(45deg, #00d4ff, #007bff);
-    color: white;
+    background: linear-gradient(to right, #007bff, #00d4ff);
     border: none;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    width: 100%;
+    border-radius: 5px;
     cursor: pointer;
-    width: 90%;
     font-size: 16px;
-    transition: all 0.3s ease-in-out;
+    margin-top: 5px;
 }
 
 button:hover {
-    background: linear-gradient(45deg, #007bff, #00d4ff);
-    transform: scale(1.05);
+    background: linear-gradient(to right, #00d4ff, #007bff);
 }
 
-/* === Weather Info === */
-.weather-info {
-    margin-top: 20px;
-    font-size: 18px;
-}
-
-/* === Weather Icons & Effects === */
-.weather-icon {
-    width: 80px;
-    margin-top: 10px;
-}
-
-/* === Error Message === */
-.error {
-    color: #ff4d4d;
-    font-weight: bold;
-    margin-top: 10px;
+.weather-info, .forecast-info {
+    margin-top: 15px;
 }
 
 .forecast-container {
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 20px;
+    justify-content: space-around;
+    margin-top: 10px;
 }
 
 .forecast {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    background: #333;
     padding: 10px;
-    width: 100px;
+    border-radius: 8px;
     text-align: center;
-    backdrop-filter: blur(10px);
-}
-
-.forecast p {
-    font-size: 14px;
-    margin: 5px 0;
 }
