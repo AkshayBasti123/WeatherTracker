@@ -1,75 +1,95 @@
-const apiKey = "b1eeafd271ab3faa4a3c948fe3387fcf";
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("JavaScript loaded successfully!");
 
-const cityInput = document.getElementById("cityInput");
-const currentWeatherBtn = document.getElementById("currentWeatherBtn");
-const forecastBtn = document.getElementById("forecastBtn");
-const weatherResult = document.getElementById("weatherResult");
-const forecastContainer = document.getElementById("forecastContainer");
-const forecastDiv = document.getElementById("forecast");
+    const locationInput = document.getElementById("location-input");
+    const currentWeatherBtn = document.getElementById("current-weather-btn");
+    const forecastBtn = document.getElementById("forecast-btn");
+    const forecastContainer = document.getElementById("forecast-container");
+    const forecastDiv = document.getElementById("forecast");
 
-currentWeatherBtn.addEventListener("click", () => {
-    const city = cityInput.value.trim();
-    if (city === "") {
-        alert("Please enter a city name!");
-        return;
-    }
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.cod === 200) {
-                weatherResult.innerHTML = `
-                    <h2>${data.name}, ${data.sys.country}</h2>
-                    <p>${data.weather[0].description}</p>
-                    <p>🌡️ ${data.main.temp}°C</p>
+    const infoButton = document.getElementById("info-button");
+    const infoBox = document.getElementById("info-box");
+
+    const API_KEY = "b1eeafd271ab3faa4a3c948fe3387fcf";
+
+    currentWeatherBtn.addEventListener("click", async function () {
+        const location = locationInput.value.trim();
+        if (!location) {
+            alert("Please enter a location.");
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`
+            );
+            const data = await response.json();
+
+            if (data.cod !== 200) {
+                alert("Location not found. Please try again.");
+                return;
+            }
+
+            alert(`Current Weather in ${data.name}: ${data.weather[0].description}, ${data.main.temp}°C`);
+        } catch (error) {
+            console.error("Error fetching weather data:", error);
+            alert("Something went wrong. Try again later.");
+        }
+    });
+
+    // Fetch 5-day forecast
+    forecastBtn.addEventListener("click", async function () {
+        const location = locationInput.value.trim();
+        if (!location) {
+            alert("Please enter a location.");
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`
+            );
+            const data = await response.json();
+
+            if (data.cod !== "200") {
+                alert("Location not found. Please try again.");
+                return;
+            }
+
+            forecastDiv.innerHTML = ""; // Clear previous forecast
+            forecastContainer.style.display = "block";
+
+            const dailyForecasts = {};
+            data.list.forEach((forecast) => {
+                const date = forecast.dt_txt.split(" ")[0];
+                if (!dailyForecasts[date]) {
+                    dailyForecasts[date] = forecast;
+                }
+            });
+
+            Object.keys(dailyForecasts).slice(0, 5).forEach((date) => {
+                const forecast = dailyForecasts[date];
+                const forecastElement = document.createElement("div");
+                forecastElement.classList.add("forecast-item");
+                forecastElement.innerHTML = `
+                    <h3>${new Date(date).toLocaleDateString("en-US", { weekday: "long" })}</h3>
+                    <p>${forecast.weather[0].description}</p>
+                    <p>🌡️ ${forecast.main.temp}°C</p>
                 `;
-            } else {
-                weatherResult.innerHTML = `<p style="color: red;">City not found.</p>`;
-            }
-        })
-        .catch(error => console.error("Error fetching weather:", error));
-});
+                forecastDiv.appendChild(forecastElement);
+            });
+        } catch (error) {
+            console.error("Error fetching forecast data:", error);
+            alert("Something went wrong. Try again later.");
+        }
+    });
 
-forecastBtn.addEventListener("click", () => {
-    const city = cityInput.value.trim();
-    if (city === "") {
-        alert("Please enter a city name!");
-        return;
+    // Toggle info box visibility
+    if (infoButton && infoBox) {
+        infoButton.addEventListener("click", function () {
+            infoBox.classList.toggle("hidden");
+        });
+    } else {
+        console.error("One or more elements not found in DOM.");
     }
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.cod === "200") {
-                forecastContainer.style.display = "block";
-                forecastDiv.innerHTML = "";
-                
-                const dailyForecasts = {};
-                data.list.forEach(item => {
-                    const date = item.dt_txt.split(" ")[0];
-                    if (!dailyForecasts[date]) {
-                        dailyForecasts[date] = item;
-                    }
-                });
-
-                Object.keys(dailyForecasts).slice(0, 5).forEach(date => {
-                    const forecast = dailyForecasts[date];
-                    forecastDiv.innerHTML += `
-                        <div class="forecast-day">
-                            <h3>${new Date(date).toLocaleDateString("en-US", { weekday: "long" })}</h3>
-                            <p>${forecast.weather[0].description}</p>
-                            <p>🌡️ ${forecast.main.temp}°C</p>
-                        </div>
-                    `;
-                });
-            } else {
-                forecastContainer.style.display = "none";
-                weatherResult.innerHTML = `<p style="color: red;">City not found.</p>`;
-            }
-        })
-        .catch(error => console.error("Error fetching forecast:", error));
-});
-
-// Toggle Info Panel
-document.getElementById("infoBtn").addEventListener("click", function () {
-    const panel = document.getElementById("infoPanel");
-    panel.style.display = (panel.style.display === "none" || panel.style.display === "") ? "block" : "none";
 });
