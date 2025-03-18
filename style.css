@@ -65,3 +65,24 @@ button:hover {
     border-radius: 8px;
     text-align: center;
 }
+
+.forecast-container {
+    display: flex;  
+    justify-content: center; 
+    gap: 10px; 
+    width: 100%; 
+    flex-wrap: nowrap; 
+    overflow: hidden;
+}
+
+
+.forecast-card {
+    flex: 1; 
+    min-width: 150px; 
+    max-width: 200px; 
+    background: #333; 
+    color: white; 
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+}
