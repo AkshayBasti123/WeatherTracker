@@ -3,6 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const forecastBtn = document.getElementById("forecastBtn");
     const input = document.getElementById("location");
 
+    if (!weatherBtn || !forecastBtn || !input) {
+        console.error("Error: One or more elements not found in DOM.");
+        return;
+    }
+
     weatherBtn.addEventListener("click", function () {
         const location = input.value.trim();
         if (location) {
