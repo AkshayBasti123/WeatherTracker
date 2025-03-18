@@ -93,3 +93,4 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("One or more elements not found in DOM.");
     }
 });
+
