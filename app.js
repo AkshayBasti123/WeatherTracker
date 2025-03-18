@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+    console.log("JavaScript file loaded successfully! ✅");
+
     const weatherBtn = document.getElementById("weatherBtn");
     const forecastBtn = document.getElementById("forecastBtn");
     const input = document.getElementById("location");
@@ -9,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     weatherBtn.addEventListener("click", function () {
+        console.log("Weather Button Clicked!");
         const location = input.value.trim();
         if (location) {
             fetchWeather(location);
@@ -19,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     forecastBtn.addEventListener("click", function () {
+        console.log("Forecast Button Clicked!");
         const location = input.value.trim();
         if (location) {
             fetchForecast(location);
@@ -33,17 +37,22 @@ function fetchWeather(location) {
     const apiKey = "b1eeafd271ab3faa4a3c948fe3387fcf";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
 
+    console.log(`Fetching Current Weather from: ${url}`);
+
     fetch(url)
         .then(response => {
+            console.log("API Response Status:", response.status);
             if (!response.ok) {
-                throw new Error("Could not retrieve weather data.");
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
             }
             return response.json();
         })
         .then(data => {
+            console.log("Weather Data:", data);
             displayWeather(data);
         })
         .catch(error => {
+            console.error("Fetch Error:", error);
             displayError(error.message, "weather");
         });
 }
@@ -52,17 +61,22 @@ function fetchForecast(location) {
     const apiKey = "b1eeafd271ab3faa4a3c948fe3387fcf";
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&units=metric`;
 
+    console.log(`Fetching 5-Day Forecast from: ${url}`);
+
     fetch(url)
         .then(response => {
+            console.log("API Response Status:", response.status);
             if (!response.ok) {
-                throw new Error("Could not retrieve forecast data.");
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
             }
             return response.json();
         })
         .then(data => {
+            console.log("Forecast Data:", data);
             displayForecast(data);
         })
         .catch(error => {
+            console.error("Fetch Error:", error);
             displayError(error.message, "forecast");
         });
 }
