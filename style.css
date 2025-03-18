@@ -1,128 +1,90 @@
-/* General Styling */
 body {
-    background-color: #121212;
     font-family: Arial, sans-serif;
-    color: #fff;
+    background-color: #121212;
+    color: white;
     text-align: center;
     margin: 0;
     padding: 0;
 }
 
-/* Main Container */
-.app-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-    position: relative;
-}
-
-/* Weather App Box */
-.weather-app {
-    background: #242424;
+.container {
+    width: 90%;
+    max-width: 400px;
+    background: #222;
     padding: 20px;
-    border-radius: 15px;
-    width: 350px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-h2 {
-    color: cyan;
-}
-
-/* Input Field */
 input {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin: 10px 0;
     border: none;
     border-radius: 5px;
-    background: #333;
-    color: white;
 }
 
-/* Buttons */
 button {
-    background: linear-gradient(to right, #007bff, #00d4ff);
-    border: none;
+    width: 90%;
     padding: 10px;
-    color: white;
-    width: 100%;
+    margin: 5px 0;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 5px;
+    color: white;
+    background-color: #007bff;
 }
 
 button:hover {
-    background: linear-gradient(to right, #00d4ff, #007bff);
+    background-color: #0056b3;
 }
 
-/* Forecast Styling */
-.forecast-container {
+#forecastContainer {
+    display: none;
+    margin-top: 20px;
+}
+
+#forecast {
     display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-    flex-wrap: wrap;  /* Fixes layout issues */
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.forecast {
+.forecast-day {
     background: #333;
     padding: 10px;
+    margin: 5px;
     border-radius: 8px;
     text-align: center;
-    flex: 1;
-    min-width: 100px;
-    margin: 5px;
+    width: 120px;
 }
 
-/* ℹ️ Info Button */
-.info-button {
-    position: absolute;
-    right: -50px;
-    top: 20px;
-    background: #007bff;
-    border: none;
-    padding: 10px;
+#infoBtn {
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background-color: #007bff;
     color: white;
-    border-radius: 50%;
+    border: none;
+    padding: 10px 15px;
     cursor: pointer;
-    font-size: 20px;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.info-button:hover {
-    background: #0056b3;
-}
-
-/* Info Panel (Hidden by Default) */
-.info-panel {
-    position: absolute;
-    right: -300px;
-    top: 80px;
-    background: #242424;
-    padding: 20px;
-    border-radius: 15px;
+#infoPanel {
+    position: fixed;
+    top: 50%;
+    right: 60px;
+    transform: translateY(-50%);
     width: 250px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    text-align: left;
+    background-color: #222;
+    color: white;
+    padding: 15px;
     display: none;
-}
-
-.info-panel h3 {
-    margin-top: 0;
-    color: cyan;
-}
-
-.info-panel a {
-    color: #00d4ff;
-    text-decoration: none;
-}
-
-.info-panel a:hover {
-    text-decoration: underline;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
