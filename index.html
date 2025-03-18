@@ -4,32 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="app-container">
-        <div class="weather-app">
-            <h2>WEATHER APP 🌌</h2>
-            <input type="text" id="location" placeholder="Enter location">
-            
-            <button id="weatherBtn">Get Current Weather</button>
-            <button id="forecastBtn">Get 5-Day Forecast</button>
 
-            <div class="weather-info" id="weather"></div>
-            <div class="forecast-info" id="forecast"></div>
-        </div>
+    <div class="container">
+        <h1>🌤️ WEATHER APP 🌃</h1>
+        <input type="text" id="cityInput" placeholder="Enter city">
+        <button id="currentWeatherBtn">Get Current Weather</button>
+        <button id="forecastBtn">Get 5-Day Forecast</button>
+        
+        <div id="weatherResult"></div>
 
-        <!-- Side Info Button -->
-        <button id="infoBtn" class="info-button">ℹ️</button>
-
-        <!-- Hidden Info Panel -->
-        <div id="infoPanel" class="info-panel">
-            <h3>Your Name</h3>
-            <p>Product Manager Accelerator is designed to support PM professionals through every stage of their careers.</p>
-            <a href="https://www.linkedin.com/school/pmaccelerator/" target="_blank">Visit our LinkedIn page</a>
+        <div id="forecastContainer">
+            <h2>5-Day Forecast</h2>
+            <div id="forecast"></div>
         </div>
     </div>
 
-    <script src="script.js" defer></script>
+   
+    <button id="infoBtn">ℹ️ Info</button>
+
+   
+    <div id="infoPanel">
+        <h3>Akshay Bastiampillai</h3>
+        <p>PM Accelerator: A program that helps aspiring product managers gain real-world experience and job opportunities.</p>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
