@@ -114,3 +114,8 @@ function displayForecast(data) {
 function displayError(message, elementId) {
     document.getElementById(elementId).innerHTML = `<p class="error">${message}</p>`;
 }
+
+document.getElementById("infoBtn").addEventListener("click", function () {
+    const infoBox = document.getElementById("infoBox");
+    infoBox.style.display = infoBox.style.display === "none" || infoBox.style.display === "" ? "block" : "none";
+});
