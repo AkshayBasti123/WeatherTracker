@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const location = input.value.trim();
         if (location) {
             fetchWeather(location);
-            document.getElementById("forecast").innerHTML = ""; // Clear forecast section
+            document.getElementById("forecast").innerHTML = "";
         } else {
             displayError("Please enter a valid location.", "weather");
         }
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const location = input.value.trim();
         if (location) {
             fetchForecast(location);
-            document.getElementById("weather").innerHTML = ""; // Clear weather section
+            document.getElementById("weather").innerHTML = ""; 
         } else {
             displayError("Please enter a valid location.", "forecast");
         }
@@ -114,8 +114,3 @@ function displayForecast(data) {
 function displayError(message, elementId) {
     document.getElementById(elementId).innerHTML = `<p class="error">${message}</p>`;
 }
-
-document.getElementById('infoButton').addEventListener('click', function() {
-    let infoBox = document.getElementById('infoBox');
-    infoBox.classList.toggle('hidden');
-});
