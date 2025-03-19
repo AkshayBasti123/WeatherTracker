@@ -114,3 +114,8 @@ function displayForecast(data) {
 function displayError(message, elementId) {
     document.getElementById(elementId).innerHTML = `<p class="error">${message}</p>`;
 }
+
+document.getElementById('infoButton').addEventListener('click', function() {
+    let infoBox = document.getElementById('infoBox');
+    infoBox.classList.toggle('hidden');
+});
