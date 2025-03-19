@@ -55,8 +55,11 @@ button:hover {
 
 .forecast-container {
     display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
+    justify-content: space-between;  /* Evenly distributes the cards */
+    flex-wrap: nowrap;  /* Prevents wrapping to the next line */
+    gap: 10px;  /* Adds spacing between cards */
+    overflow: hidden;  /* Ensures no scrolling */
+    width: 100%;  /* Takes full width of the parent container */
 }
 
 .forecast {
@@ -66,25 +69,14 @@ button:hover {
     text-align: center;
 }
 
-.forecast-container {
-    display: flex;  
-    justify-content: center; 
-    gap: 10px; 
-    width: 100%; 
-    flex-wrap: nowrap; 
-    overflow: hidden;
-}
-
-
 .forecast-card {
-    flex: 1; 
-    min-width: 150px; 
-    max-width: 200px; 
-    background: #333; 
-    color: white; 
-    text-align: center;
+    flex: 1; /* Makes sure all cards take equal space */
+    min-width: 150px; /* Prevents cards from shrinking too much */
+    max-width: 200px; /* Keeps them from getting too big */
+    background: #222;
     padding: 10px;
     border-radius: 10px;
+    text-align: center;
 }
 
 #infoButton {
